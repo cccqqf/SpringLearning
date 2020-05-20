@@ -10,4 +10,24 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
     <context:component-scan base-package="IOC"/>
+
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="propertyEditorRegistrars">
+            <list>
+                <ref bean="datePropertyEditorRegistrar"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="datePropertyEditorRegistrar" class="IOC.DatePropertyEditorRegistrar">
+        <property name="datePropertyEditor" >
+            <ref bean="datePropertyEditor"/>
+        </property>
+    </bean>
+    <bean id="datePropertyEditor" class="IOC.DatePropertyEditor">
+        <property name="datePattern" value="yyyy/MM/dd"/>
+    </bean>
+
+    <bean id="dateFoo" class="IOC.DateFoo">
+        <property name="date" value="2007/10/16"/>
+    </bean>
 </beans>

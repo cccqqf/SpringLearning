@@ -15,8 +15,13 @@ public class NewsProvider {
     private Listener newsListener;
     @Autowired
     private Persister newsPersister;
+
+
+    public static String seq="160";
+
     public void getAndPersistNews()
     {
+        System.out.println("seq="+seq);
         String[] newsIds = newsListener.getAvailableNewsIds();
         System.out.println(newsIds.length);
         //判空
@@ -50,6 +55,7 @@ class DowJonesNewsListener implements Listener{
 
     @Override
     public String[] getAvailableNewsIds() {
+        System.out.println("getAvailableNewsIds");
         return new String[0];
     }
 }
@@ -59,5 +65,16 @@ class DowJonesNewsPersister implements Persister{
     @Override
     public void persistNews(String[] newsIds) {
         System.out.println("DowJonesNews");
+    }
+
+    public void getNewsBean(){
+        System.out.println(this.toString());
+    }
+}
+
+
+class fresh{
+    static {
+        NewsProvider.seq="189";
     }
 }
