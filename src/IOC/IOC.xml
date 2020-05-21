@@ -30,4 +30,6 @@
     <bean id="dateFoo" class="IOC.DateFoo">
         <property name="date" value="2007/10/16"/>
     </bean>
+
+
 </beans>

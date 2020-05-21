@@ -2,9 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean   id="djNewsListener" class="IOC.DowJonesNewsListener" name="/news/dowJonesNewsListener,dowJonesNewsListener">
+    <bean id="djNewsListener" class="IOC.DowJonesNewsListener">
+        <property name="decodedPassword" value="加密之前"/>
     </bean>
+
     <bean   id="djNewsPersister" class="IOC.DowJonesNewsPersister">
+
     </bean>
 
     <bean id="fresh" class="IOC.fresh"></bean>
@@ -19,7 +22,9 @@
         <property name="newsListener" ref="djNewsListener"/>
         <property name="newsPersister" ref="djNewsPersister"/>
     </bean>
-
+    <bean id="passwordDecodePostProcessor" class="IOC.PasswordDecodePostProcessor">
+        <!--如果需要，注入必要的依赖-->
+    </bean>
 
 
 

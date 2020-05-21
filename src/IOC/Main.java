@@ -1,31 +1,27 @@
 package IOC;
 
-import org.springframework.beans.PropertyEditorRegistrySupport;
+
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.config.CustomEditorConfigurer;
-import org.springframework.beans.factory.config.Scope;
+
 import org.springframework.beans.factory.support.*;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.beans.PropertyEditorSupport;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by CCCQQF on 2020/5/19.
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
+
         //直接编码方式进行注册
         DefaultListableBeanFactory beanRegisterByCode=new DefaultListableBeanFactory();
         BeanFactory beanFactory=bindViaCode(beanRegisterByCode);
@@ -50,6 +46,14 @@ public class Main {
         provider1.getAndPersistNews();
         DateFoo foo=(DateFoo)context.getBean("dateFoo");
         System.out.println(foo.getDate());
+
+
+
+
+        ApplicationContext context1=new ClassPathXmlApplicationContext("file:D:/IntelliJ_Space/IdeaProjects/Spring/src/IOC/IOCXML.xml");
+        DowJonesNewsListener dowJonesNewsListener1=(DowJonesNewsListener)context1.getBean("djNewsListener");
+        System.out.println(dowJonesNewsListener1.getEncodedPassword());
+
     }
 
     private static BeanFactory bindViaCode(DefaultListableBeanFactory beanRegister) {
@@ -85,4 +89,21 @@ public class Main {
     }
 
 
+}
+
+//使用beanpostProcessor对Listener类实例化前进行修改
+class PasswordDecodePostProcessor implements BeanPostProcessor{
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if(bean instanceof PasswordDecodable){
+            ((PasswordDecodable) bean).setDecodedPassword(decodePassword(((PasswordDecodable) bean).getEncodedPassword()));
+        }
+        return bean;
+    }
+
+    private String decodePassword(String encodedPassword) {
+        // 实现解码逻辑
+        return "解密后的pwd："+encodedPassword;
+    }
 }

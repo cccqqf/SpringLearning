@@ -50,13 +50,29 @@ interface Listener{
 interface Persister{
     void persistNews(String[] newsIds);
 }
+
+interface PasswordDecodable {
+    String getEncodedPassword();
+    void setDecodedPassword(    String password);
+}
 @Component
-class DowJonesNewsListener implements Listener{
+class DowJonesNewsListener implements Listener,PasswordDecodable{
+    private String password;
 
     @Override
     public String[] getAvailableNewsIds() {
         System.out.println("getAvailableNewsIds");
         return new String[0];
+    }
+
+    @Override
+    public String getEncodedPassword() {
+        return this.password;
+    }
+
+    @Override
+    public void setDecodedPassword(String password) {
+        this.password=password;
     }
 }
 @Component
@@ -71,7 +87,6 @@ class DowJonesNewsPersister implements Persister{
         System.out.println(this.toString());
     }
 }
-
 
 class fresh{
     static {
