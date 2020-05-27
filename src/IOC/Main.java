@@ -6,13 +6,24 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 
 import org.springframework.beans.factory.support.*;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 /**
@@ -37,9 +48,6 @@ public class Main {
         NewsProvider newsProvider=(NewsProvider)container.getBean("djNewsProvider");
         newsProvider.getAndPersistNews();
 
-
-
-
         //基于注释方法
         ApplicationContext context=new ClassPathXmlApplicationContext("file:D:/IntelliJ_Space/IdeaProjects/Spring/src/IOC/IOC.xml");
         NewsProvider provider1=(NewsProvider) context.getBean("newsProvider");
@@ -47,13 +55,9 @@ public class Main {
         DateFoo foo=(DateFoo)context.getBean("dateFoo");
         System.out.println(foo.getDate());
 
-
-
-
-        ApplicationContext context1=new ClassPathXmlApplicationContext("file:D:/IntelliJ_Space/IdeaProjects/Spring/src/IOC/IOCXML.xml");
+        ApplicationContext context1=new ClassPathXmlApplicationContext("classpath:/IOC/IOCXML.xml");
         DowJonesNewsListener dowJonesNewsListener1=(DowJonesNewsListener)context1.getBean("djNewsListener");
         System.out.println(dowJonesNewsListener1.getEncodedPassword());
-
     }
 
     private static BeanFactory bindViaCode(DefaultListableBeanFactory beanRegister) {
