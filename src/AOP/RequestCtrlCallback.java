@@ -2,11 +2,16 @@ package AOP;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.aop.Advisor;
+import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.support.DelegatePerTargetObjectIntroductionInterceptor;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 
-import java.lang.reflect.AccessibleObject;
+
+
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -15,7 +20,6 @@ import java.util.Date;
  */
 public class RequestCtrlCallback implements MethodInterceptor {
     private static final Log logger= LogFactory.getLog(RequestCtrlCallback.class);
-
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
         if(method.getName().equals("request")){
@@ -28,6 +32,7 @@ public class RequestCtrlCallback implements MethodInterceptor {
             return methodProxy.invokeSuper(o,objects);
         }
         return null;
+
     }
 
 
@@ -37,5 +42,11 @@ public class RequestCtrlCallback implements MethodInterceptor {
         enhancer.setCallback(new RequestCtrlCallback());
         Subject proxy=(Subject)enhancer.create();
         proxy.request();
+
+
+
+
     }
 }
+
+

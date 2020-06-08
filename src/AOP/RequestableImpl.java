@@ -8,4 +8,8 @@ public class RequestableImpl implements IRequestable {
     public void request() {
         System.out.println("request processed in RequestableImpl");
     }
+    @Override
+    public void test(){
+        System.out.println("test in RequestableImpl");
+    }
 }

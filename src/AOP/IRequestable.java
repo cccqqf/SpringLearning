@@ -5,4 +5,5 @@ package AOP;
  */
 public interface IRequestable {
     void request();
+    void test();
 }
